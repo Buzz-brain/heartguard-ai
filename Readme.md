@@ -34,10 +34,66 @@ graph TD
 
 📊 Model Performance
 Metric	Score	Performance Level
+Accuracy	86.67%	🏅 Excellent
+F1-Score	0.8519	🏅 Excellent
+ROC-AUC	0.9453	🏅 Outstanding
+Recall	82.14%	🏅 Very Good
+Precision	88.46%	🏅 Excellent
+🚀 Quick Start
+Prerequisites
+Python 3.9+
+
+Node.js 14+
+
+Git
+
+Installation
+Clone the Repository
+
+bash
+git clone https://github.com/yourusername/heartguard-ai.git
+cd heartguard-ai
+Backend Setup
+
+bash
+cd backend
+pip install -r requirements.txt
+python app.py
+Frontend Setup (Coming Soon)
+
+bash
+cd frontend
+npm install
+npm start
+🛠️ Technology Stack
+Backend
+Framework: Flask 2.3.3
+
+Machine Learning: Scikit-learn 1.6.1
+
+Validation: Custom input validation
+
+API: RESTful JSON API
+
+CORS: Flask-CORS for cross-origin requests
+
+Frontend (Upcoming)
+Framework: React.js 18+
+
+UI Library: Material-UI
+
+Charts: Chart.js for visualization
+
+HTTP Client: Axios for API calls
+
 Deployment
 Backend: Render.com
+
+Frontend: Vercel/Netlify
+
 Model Storage: GitHub LFS
-<p align="center">
+
+📋 API Documentation
 Base URL
 https://heartguard-api.onrender.com
 
@@ -49,16 +105,42 @@ Response:
 
 json
 {
+  "status": "healthy",
   "model_loaded": true,
   "timestamp": "2025-09-07T18:30:45.123456"
+}
+2. Prediction Endpoint
+http
+POST /predict
+Content-Type: application/json
+Request Body:
+
+json
+{
+  "age": 55,
+  "sex": 1,
+  "cp": 3,
+  "trestbps": 130,
+  "chol": 250,
+  "fbs": 0,
+  "restecg": 0,
   "thalach": 187,
+  "exang": 0,
   "oldpeak": 3.5,
   "slope": 3,
   "ca": 0,
   "thal": 3
+}
 Success Response:
 
+json
+{
+  "prediction": 1,
+  "prediction_label": "Heart Disease",
+  "confidence": 0.96,
+  "probabilities": {
     "no_disease": 0.04,
+    "disease": 0.96
   },
   "timestamp": "2025-09-07T18:32:15.123456"
 }
@@ -71,6 +153,7 @@ trestbps	Resting BP (mm Hg)	94-200
 chol	Cholesterol (mg/dl)	126-564
 fbs	Fasting blood sugar	0=False, 1=True
 restecg	Resting ECG	0-2
+thalach	Max heart rate	71-202
 exang	Exercise angina	0=No, 1=Yes
 oldpeak	ST depression	0.0-6.2
 slope	ST segment slope	0-2
@@ -81,9 +164,13 @@ Dataset
 Source: UCI Cleveland Heart Disease Dataset
 
 Samples: 297 patients after cleaning
+
 Features: 13 clinical parameters
 
 Target: Binary classification (0=No Disease, 1=Disease)
+
+Algorithms Evaluated
+Random Forest (Selected) 🥇
 
 Support Vector Machine 🥈
 
