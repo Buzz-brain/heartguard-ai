@@ -71,51 +71,102 @@ Framework: Flask 2.3.3
 
 Machine Learning: Scikit-learn 1.6.1
 
-Validation: Custom input validation
+# 🫀 HeartGuard AI
 
-API: RESTful JSON API
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Python](https://img.shields.io/badge/Python-3.9%2B-blue)](https://www.python.org/)
+[![Flask](https://img.shields.io/badge/Flask-2.3.3-000000?logo=flask)](https://flask.palletsprojects.com/)
+[![Scikit-learn](https://img.shields.io/badge/Scikit--learn-1.6.1-007ACC?logo=scikit-learn)](https://scikit-learn.org/)
+[![Model Accuracy](https://img.shields.io/badge/Accuracy-86.67%25-green)]()
 
-CORS: Flask-CORS for cross-origin requests
+A machine learning–powered web service that predicts the likelihood of coronary heart disease from clinical and demographic inputs. Built with Flask and scikit-learn, HeartGuard AI is intended as a clinical decision support tool to help healthcare teams identify at-risk patients earlier.
 
-Frontend (Upcoming)
-Framework: React.js 18+
+---
 
-UI Library: Material-UI
+## Table of Contents
+- [Features](#features)
+- [Project structure](#project-structure)
+- [Quick start](#quick-start)
+- [API documentation](#api-documentation)
+- [Clinical parameters](#clinical-parameters)
+- [Model training details](#model-training-details)
+- [Why HeartGuard AI?](#why-heartguard-ai)
+- [Contributing](#contributing)
+- [License](#license)
+- [Acknowledgments](#acknowledgments)
+- [Contact](#contact)
 
-Charts: Chart.js for visualization
+---
 
-HTTP Client: Axios for API calls
+## ✨ Features
+- AI-powered predictions using a Random Forest model (Accuracy: 86.67%)
+- Fast responses for real-time usage
+- Privacy-first design — no patient data persisted by default
+- RESTful JSON API with health check and prediction endpoints
+- Lightweight, easy-to-deploy Flask backend
 
-Deployment
-Backend: Render.com
+---
 
-Frontend: Vercel/Netlify
+## Project structure
+```text
+heart-disease/
+├── app.py                      # Flask application entrypoint
+├── comprehensive_test.py       # Tests / examples
+├── feature_names.pkl           # Feature names used by the model
+├── feature_scaler.pkl          # Scaler used for preprocessing
+├── heart_disease_best_model.pkl# Trained Random Forest model
+├── requirements.txt            # Python dependencies
+├── runtime.txt                 # Runtime notes (for hosting providers)
+├── render.yaml                 # Deployment manifest (optional)
+└── README.md                   # Project README (this file)
+```
 
-Model Storage: GitHub LFS
+---
 
-📋 API Documentation
-Base URL
-https://heartguard-api.onrender.com
+## 🚀 Quick start
+These commands are for Windows PowerShell (adjust for other shells).
 
-Endpoints
-1. Health Check
-http
+### Prerequisites
+- Python 3.9+
+- pip
+- (Optional) virtual environment
+
+### Install and run
+```powershell
+git clone https://github.com/Buzz-brain/heartguard-ai.git
+cd "heart-disease"
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+python app.py
+```
+The API will start on the port configured in `app.py` (default: 5000). Open `http://localhost:5000/health` to confirm the service is healthy.
+
+---
+
+## 📋 API documentation
+Base URL: `http://localhost:5000` (or your deployed URL)
+
+### Health check
+```
 GET /health
-Response:
-
-json
+```
+Response example:
+```json
 {
   "status": "healthy",
   "model_loaded": true,
   "timestamp": "2025-09-07T18:30:45.123456"
 }
-2. Prediction Endpoint
-http
+```
+
+### Prediction
+```
 POST /predict
 Content-Type: application/json
-Request Body:
-
-json
+```
+Request body example:
+```json
 {
   "age": 55,
   "sex": 1,
@@ -131,133 +182,87 @@ json
   "ca": 0,
   "thal": 3
 }
-Success Response:
-
-json
+```
+Response example:
+```json
 {
   "prediction": 1,
   "prediction_label": "Heart Disease",
   "confidence": 0.96,
-  "probabilities": {
-    "no_disease": 0.04,
-    "disease": 0.96
-  },
+  "probabilities": { "no_disease": 0.04, "disease": 0.96 },
   "timestamp": "2025-09-07T18:32:15.123456"
 }
-🎓 Clinical Parameters
-Parameter	Description	Values
-age	Age in years	29-77
-sex	Gender	0=Female, 1=Male
-cp	Chest pain type	0-3
-trestbps	Resting BP (mm Hg)	94-200
-chol	Cholesterol (mg/dl)	126-564
-fbs	Fasting blood sugar	0=False, 1=True
-restecg	Resting ECG	0-2
-thalach	Max heart rate	71-202
-exang	Exercise angina	0=No, 1=Yes
-oldpeak	ST depression	0.0-6.2
-slope	ST segment slope	0-2
-ca	Major vessels	0-3
-thal	Thalassemia	3,6,7
-📈 Model Training Details
-Dataset
-Source: UCI Cleveland Heart Disease Dataset
+```
 
-Samples: 297 patients after cleaning
+Notes:
+- All features expected are numeric and correspond to the clinical parameters in [Clinical parameters](#clinical-parameters).
+- The model returns a binary prediction (0 = No Disease, 1 = Disease) and probabilities.
 
-Features: 13 clinical parameters
+---
 
-Target: Binary classification (0=No Disease, 1=Disease)
+## 🎓 Clinical parameters
+| Parameter | Description | Values |
+|---|---:|---:|
+| age | Age in years | 29–77 |
+| sex | Gender | 0 = Female, 1 = Male |
+| cp | Chest pain type | 0–3 |
+| trestbps | Resting blood pressure (mm Hg) | 94–200 |
+| chol | Serum cholesterol (mg/dl) | 126–564 |
+| fbs | Fasting blood sugar > 120 mg/dl | 0 = False, 1 = True |
+| restecg | Resting electrocardiographic results | 0–2 |
+| thalach | Maximum heart rate achieved | 71–202 |
+| exang | Exercise-induced angina | 0 = No, 1 = Yes |
+| oldpeak | ST depression induced by exercise | 0.0–6.2 |
+| slope | Slope of peak exercise ST segment | 0–2 |
+| ca | Number of major vessels (0–3) colored by fluoroscopy | 0–3 |
+| thal | Thalassemia (3 = normal, 6 = fixed defect, 7 = reversible defect) | 3,6,7 |
 
-Algorithms Evaluated
-Random Forest (Selected) 🥇
+---
 
-Support Vector Machine 🥈
+## 📈 Model training details
+- Dataset: UCI Cleveland Heart Disease dataset (preprocessed)
+- Samples: ~297 after cleaning
+- Features: 13 clinical parameters
+- Task: Binary classification (0 = No Disease, 1 = Disease)
+- Selected model: Random Forest (best trade-off between performance and interpretability)
 
-Logistic Regression 🥉
+Top features by importance (approx.): Thal, CP, Thalach, Oldpeak, CA
 
-XGBoost
+---
 
-K-Nearest Neighbors
+## 🌟 Why HeartGuard AI?
+- Early detection support for clinicians
+- Quick, consistent risk scoring from structured inputs
+- Privacy-first deployment options (local inference)
 
-Decision Tree
+---
 
-Feature Importance
-Thal (13.5%) - Thalassemia
+## 🤝 Contributing
+Contributions are welcome. Please follow standard GitHub workflow:
+1. Fork the repository
+2. Create a topic branch (`git checkout -b feature/my-feature`)
+3. Commit changes (`git commit -m "Add my feature"`)
+4. Push and open a PR
 
-CP (13.4%) - Chest pain type
+For code changes, include tests or a short demo demonstrating the change.
 
-Thalach (11.7%) - Max heart rate
+---
 
-Oldpeak (10.5%) - ST depression
+## � License
+This project is licensed under the MIT License — see the `LICENSE` file for details.
 
-CA (9.6%) - Major vessels
+---
 
-🌟 Why HeartGuard AI?
-For Healthcare Providers
-Early Detection: Identify at-risk patients before symptoms worsen
+## 🙏 Acknowledgments
+- UCI Machine Learning Repository — Cleveland Heart Disease dataset
+- scikit-learn and Flask projects
+- Medical advisors for domain guidance
 
-Decision Support: Second opinion for clinical assessments
+---
 
-Time Efficiency: Rapid analysis of patient data
+## � Contact
+For questions or support, open an issue or email: [support@heartguard-ai.com](mailto:support@heartguard-ai.com)
 
-Consistency: Objective, data-driven predictions
+---
 
-For Patients
-Awareness: Understand personal heart disease risk factors
-
-Prevention: Motivation for lifestyle changes
-
-Accessibility: Remote health assessment capability
-
-🚨 Important Disclaimer
-HeartGuard AI is a decision support tool, not a diagnostic replacement.
-
-Always consult qualified healthcare professionals for medical diagnosis
-
-Predictions should be used as supplementary information only
-
-System accuracy is 86.67% - false positives/negatives are possible
-
-Not intended for emergency medical situations
-
-🤝 Contributing
-We welcome contributions! Please see our Contributing Guidelines for details.
-
-Fork the repository
-
-Create a feature branch (git checkout -b feature/amazing-feature)
-
-Commit changes (git commit -m 'Add amazing feature')
-
-Push to branch (git push origin feature/amazing-feature)
-
-Open a Pull Request
-
-📝 License
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-🙏 Acknowledgments
-UCI Machine Learning Repository for the Cleveland Heart Disease dataset
-
-Scikit-learn team for excellent machine learning tools
-
-Flask team for the lightweight web framework
-
-Medical professionals who provided clinical validation
-
-📞 Support
-For support, please open an issue on GitHub or contact our team at support@heartguard-ai.com
-
-🏥 Ethical Considerations
-Patient privacy protection through data anonymization
-
-Transparent model decision-making process
-
-Regular model audits for bias detection
-
-Compliance with healthcare data regulations
-
-Built with ❤️ for better heart health worldwide.
-
-https://img.shields.io/badge/HeartGuard-AI%2520for%2520Health-red
+<p align="center">Built with ❤️ by Buzz brain</p>
