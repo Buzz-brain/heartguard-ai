@@ -1,2 +1,2 @@
 # runtime.txt
-python-3.9.18
+python-3.11.8  # Use Python 3.11 which has better package compatibility
