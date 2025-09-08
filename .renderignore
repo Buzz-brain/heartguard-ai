@@ -1,0 +1,6 @@
+# .renderignore
+Dockerfile
+runtime.txt
+pyproject.toml
+poetry.lock
+setup.py
