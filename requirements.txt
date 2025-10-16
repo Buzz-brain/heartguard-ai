@@ -1,17 +1,8 @@
 # requirements.txt
-# Ensure build tooling is available for PEP 517 builds
-setuptools>=65.5.0
-wheel
-# Allow newer pip if Render's environment needs it
-pip>=23.0
-
 flask==2.3.3
 flask-cors==4.0.0
 joblib==1.3.2
-# Pin numpy and scikit-learn to versions used when model artifacts were created
-# (avoids pickle/unpickle incompatibilities and missing numpy._core)
-numpy==1.24.3
+numpy==2.2.6
 pandas==2.0.3
 scikit-learn==1.6.1
-
 gunicorn==21.2.0

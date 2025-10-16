@@ -1,7 +1,11 @@
+# render.yaml
 services:
   - type: web
-    name: heartguard-api
+    name: heart-disease-api
     env: python
     plan: free
-    buildCommand: pip install --upgrade pip && pip install -r requirements.txt
-  startCommand: gunicorn app:app
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.9.18
