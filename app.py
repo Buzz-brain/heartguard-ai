@@ -1,4 +1,5 @@
 # app.py
+
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import joblib
@@ -6,10 +7,15 @@ import numpy as np
 import pandas as pd
 import logging
 from datetime import datetime
+import os
+from dotenv import load_dotenv
 
 # Initialize Flask application
+
 app = Flask(__name__)
-CORS(app)  # Enable CORS for all routes
+load_dotenv()
+allowed_origins = os.getenv("ALLOWED_ORIGINS", "http://localhost:5173,https://heartguard-rho.vercel.app").split(",")
+CORS(app, origins=allowed_origins)
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
